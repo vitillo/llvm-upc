@@ -90,6 +90,8 @@ void TargetLoweringObjectFileELF::emitPersonalityValue(MCStreamer &Streamer,
 
 static SectionKind
 getELFKindForNamedSection(StringRef Name, SectionKind K) {
+  if (Name == "upc_shared") return SectionKind::getMetadata();
+
   // N.B.: The defaults used in here are no the same ones used in MC.
   // We follow gcc, MC follows gas. For example, given ".section .eh_frame",
   // both gas and MC will produce a section with no flags. Given
@@ -134,6 +136,9 @@ static unsigned getELFSectionType(StringRef Name, SectionKind K) {
 
   if (Name == ".preinit_array")
     return ELF::SHT_PREINIT_ARRAY;
+
+  if (Name == "upc_shared")
+    return ELF::SHT_NOBITS;
 
   if (K.isBSS() || K.isThreadBSS())
     return ELF::SHT_NOBITS;
