@@ -1,4 +1,3 @@
-
 llvm-upc: Low Level Virtual Machine (LLVM) for Clang UPC
 ========================================================
 
